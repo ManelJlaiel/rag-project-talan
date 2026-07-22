@@ -1,0 +1,69 @@
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.entete {
+  background: var(--couleur-encre);
+  color: #fff;
+  padding: 1.4rem 2rem 0 2rem;
+}
+
+.entete-marque {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.4rem;
+}
+
+.entete-logo {
+  font-size: 1.6rem;
+  color: var(--couleur-accent);
+}
+
+.entete-marque h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+.sous-titre {
+  margin: 0.15rem 0 0 0;
+  font-size: 0.82rem;
+  color: #b9bfd1;
+}
+
+.onglets {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.onglet {
+  background: transparent;
+  border: none;
+  color: #b9bfd1;
+  padding: 0.7rem 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.onglet:hover {
+  color: #fff;
+}
+
+.onglet.actif {
+  color: #fff;
+  border-bottom-color: var(--couleur-accent);
+}
+
+.contenu {
+  flex: 1;
+  background: var(--couleur-fond);
+  padding: 2rem;
+}

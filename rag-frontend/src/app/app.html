@@ -1,0 +1,36 @@
+<div class="app-shell">
+
+  <header class="entete">
+    <div class="entete-marque">
+      <span class="entete-logo">◆</span>
+      <div>
+        <h1>Assistant Documentaire IA</h1>
+        <p class="sous-titre">Talan — RAG multi-fonctionnel</p>
+      </div>
+    </div>
+
+    <nav class="onglets">
+      <button
+        class="onglet"
+        [class.actif]="ongletActif() === 'pdf'"
+        (click)="changerOnglet('pdf')">
+        Questions sur PDF
+      </button>
+      <button
+        class="onglet"
+        [class.actif]="ongletActif() === 'code'"
+        (click)="changerOnglet('code')">
+        Code Explainer
+      </button>
+    </nav>
+  </header>
+
+  <main class="contenu">
+    @if (ongletActif() === 'pdf') {
+      <app-pdf-qa />
+    } @else {
+      <app-code-explainer />
+    }
+  </main>
+
+</div>

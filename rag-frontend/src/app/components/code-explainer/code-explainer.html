@@ -1,0 +1,76 @@
+<div class="panel">
+
+  <div class="panel-header">
+    <h2>Analyse de repository</h2>
+  </div>
+
+  <div class="zone-saisie-url">
+    <input
+      type="text"
+      placeholder="https://github.com/utilisateur/nom-du-repo"
+      [(ngModel)]="githubUrl"
+      (keyup.enter)="analyser()"
+      [disabled]="chargement()"
+    />
+    <button (click)="analyser()" [disabled]="chargement() || !githubUrl.trim()">
+      @if (chargement()) { Analyse en cours... } @else { Analyser }
+    </button>
+  </div>
+
+  @if (erreur()) {
+    <p class="message-erreur">{{ erreur() }}</p>
+  }
+
+  @if (chargement()) {
+    <div class="etat-chargement">
+      <p>Clonage du repo, scan des fichiers et génération du résumé...</p>
+      <p class="texte-vide">Ça peut prendre quelques secondes selon la taille du projet.</p>
+    </div>
+  }
+
+  @if (resultat(); as res) {
+    <div class="resultats">
+
+      <section class="carte">
+        <h3>Résumé</h3>
+        <p class="resume-texte">{{ res.resume }}</p>
+      </section>
+
+      <section class="carte">
+        <h3>Services détectés ({{ res.services_detectes.length }})</h3>
+        @if (res.services_detectes.length > 0) {
+          <div class="liste-services">
+            @for (service of res.services_detectes; track $index) {
+              <div class="ligne-service">
+                <span class="badge-techno">{{ service.technologie }}</span>
+                <span class="chemin-dossier">{{ service.dossier }}</span>
+                <span class="fichier-config">{{ service.fichier_config }}</span>
+              </div>
+            }
+          </div>
+        } @else {
+          <p class="texte-vide">Aucun service détecté clairement.</p>
+        }
+      </section>
+
+      <section class="carte">
+        <h3>Endpoints API détectés ({{ res.endpoints_detectes.length }})</h3>
+        @if (res.endpoints_detectes.length > 0) {
+          <div class="liste-endpoints">
+            @for (ep of res.endpoints_detectes; track $index) {
+              <div class="ligne-endpoint">
+                <span class="badge-methode" [attr.data-methode]="ep.methode">{{ ep.methode }}</span>
+                <span class="route">{{ ep.route }}</span>
+                <span class="fichier-source">{{ ep.fichier }}</span>
+              </div>
+            }
+          </div>
+        } @else {
+          <p class="texte-vide">Aucun endpoint détecté automatiquement.</p>
+        }
+      </section>
+
+    </div>
+  }
+
+</div>

@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --couleur-encre: #1b2a4a;
+  --couleur-accent: #e8a33d;
+  --couleur-fond: #f5f2ea;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--couleur-fond);
+  color: #2b2a26;
+  -webkit-font-smoothing: antialiased;
+}

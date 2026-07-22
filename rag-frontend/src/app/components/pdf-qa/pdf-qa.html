@@ -1,0 +1,81 @@
+<div class="panel">
+
+  <div class="panel-header">
+    <h2>Documents</h2>
+    <label class="bouton-upload">
+      <input type="file" accept=".pdf" (change)="onFichierSelectionne($event)" hidden />
+      @if (fichierEnCours()) {
+        <span>Indexation en cours...</span>
+      } @else {
+        <span>+ Ajouter un PDF</span>
+      }
+    </label>
+  </div>
+
+  @if (erreur()) {
+    <p class="message-erreur">{{ erreur() }}</p>
+  }
+
+  <div class="liste-documents">
+    <button
+      class="chip-document"
+      [class.actif]="documentSelectionne() === null"
+      (click)="documentSelectionne.set(null)">
+      Tous les documents
+    </button>
+    @for (doc of documents(); track doc) {
+      <button
+        class="chip-document"
+        [class.actif]="documentSelectionne() === doc"
+        (click)="documentSelectionne.set(doc)">
+        {{ doc }}
+      </button>
+    }
+    @if (documents().length === 0) {
+      <p class="texte-vide">Aucun PDF indexé pour l'instant. Ajoutes-en un pour commencer.</p>
+    }
+  </div>
+
+  <div class="zone-chat">
+    @for (msg of messages(); track $index) {
+      <div class="message" [class.message-user]="msg.role === 'user'" [class.message-assistant]="msg.role === 'assistant'">
+        <div class="bulle">
+          <p>{{ msg.texte }}</p>
+          @if (msg.extraits && msg.extraits.length > 0) {
+            <details class="extraits">
+              <summary>Voir les extraits utilisés ({{ msg.extraits.length }})</summary>
+              @for (extrait of msg.extraits; track $index) {
+                <p class="extrait-item">{{ extrait }}</p>
+              }
+            </details>
+          }
+        </div>
+      </div>
+    }
+    @if (messages().length === 0) {
+      <p class="texte-vide centre">Pose une question sur tes documents pour commencer la conversation.</p>
+    }
+  </div>
+
+  <div class="indicateur-contexte">
+    @if (documentSelectionne() === null) {
+      <span>🔍 Question posée sur : <strong>tous les documents</strong></span>
+    } @else {
+      <span>🔍 Question posée sur : <strong>{{ documentSelectionne() }}</strong></span>
+    }
+  </div>
+
+  <div class="zone-saisie">
+    <input
+      type="text"
+      placeholder="Poser une question "
+      [(ngModel)]="question"
+      (keyup.enter)="envoyerQuestion()"
+      [disabled]="questionEnCours()"
+    />
+    <button (click)="envoyerQuestion()" [disabled]="questionEnCours() || !question.trim()">
+      @if (questionEnCours()) { ... } @else { Envoyer }
+    </button>
+  </div>
+
+</div>
