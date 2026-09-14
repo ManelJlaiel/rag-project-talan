@@ -60,7 +60,7 @@ def lire_readme(chemin_repo: str) -> str:
         chemin = os.path.join(chemin_repo, nom)
         if os.path.exists(chemin):
             with open(chemin, "r", encoding="utf-8", errors="ignore") as f:
-                return f.read()[:3000]  # on limite pour ne pas exploser le prompt
+                return f.read()[:3000]  
     return "Aucun README trouvé."
 
 
@@ -125,15 +125,15 @@ def construire_arbre_dossiers(chemin_repo: str, profondeur_max: int = 2) -> str:
         dossiers[:] = [d for d in dossiers if d not in DOSSIERS_IGNORES]
         niveau = racine.count(os.sep) - niveau_racine
         if niveau > profondeur_max:
-            dossiers[:] = []  # on arrête de descendre plus profond
+            dossiers[:] = []  
             continue
         indent = "  " * niveau
         nom_dossier = os.path.basename(racine) or "."
         lignes.append(f"{indent}{nom_dossier}/")
-        for fichier in fichiers[:10]:  # limite pour ne pas noyer le prompt
+        for fichier in fichiers[:10]:  
             lignes.append(f"{indent}  {fichier}")
 
-    return "\n".join(lignes[:100])  # sécurité supplémentaire
+    return "\n".join(lignes[:100])  
 
 
 def generer_resume(readme: str, services: list, endpoints: list, arbre: str) -> str:
@@ -146,10 +146,12 @@ def generer_resume(readme: str, services: list, endpoints: list, arbre: str) -> 
 
     texte_endpoints = "\n".join(
         f"- [{e['methode']}] {e['route']} (fichier: {e['fichier']}, framework: {e['framework']})"
-        for e in endpoints[:30]  # on limite à 30 pour ne pas exploser le prompt
+        for e in endpoints[:30]  
     ) or "Aucun endpoint détecté automatiquement."
 
     prompt = f"""Tu es un assistant qui analyse un projet de code à partir des informations suivantes et génère un résumé clair et structuré en français.
+
+IMPORTANT : réponds uniquement en texte brut, SANS Markdown (pas de tableaux, pas de **gras**, pas de <br>, pas de #titres). Utilise uniquement des tirets simples (-) pour les listes et des retours à la ligne pour structurer.
 
 README du projet :
 {readme}
@@ -173,7 +175,7 @@ Génère un résumé structuré avec ces sections :
 Si une information manque, dis-le clairement plutôt que d'inventer."""
 
     reponse = client_groq.chat.completions.create(
-        model="llama-3.1-8b-instant",
+        model="openai/gpt-oss-20b",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.2,
     )

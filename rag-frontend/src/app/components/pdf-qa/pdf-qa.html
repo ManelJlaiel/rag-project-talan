@@ -2,14 +2,19 @@
 
   <div class="panel-header">
     <h2>Documents</h2>
-    <label class="bouton-upload">
-      <input type="file" accept=".pdf" (change)="onFichierSelectionne($event)" hidden />
-      @if (fichierEnCours()) {
-        <span>Indexation en cours...</span>
-      } @else {
-        <span>+ Ajouter un PDF</span>
+    <div class="actions-entete">
+      @if (messages().length > 0) {
+        <button class="bouton-secondaire" (click)="effacerHistoriqueActuel()">Effacer l'historique</button>
       }
-    </label>
+      <label class="bouton-upload">
+        <input type="file" accept=".pdf" (change)="onFichierSelectionne($event)" hidden />
+        @if (fichierEnCours()) {
+          <span>Indexation en cours...</span>
+        } @else {
+          <span>+ Ajouter un PDF</span>
+        }
+      </label>
+    </div>
   </div>
 
   @if (erreur()) {
@@ -29,6 +34,9 @@
         [class.actif]="documentSelectionne() === doc"
         (click)="documentSelectionne.set(doc)">
         {{ doc }}
+        
+          <span class="bouton-supprimer" (click)="supprimerDocument(doc, $event)" title="Supprimer ce document">×</span>
+        
       </button>
     }
     @if (documents().length === 0) {
@@ -68,7 +76,7 @@
   <div class="zone-saisie">
     <input
       type="text"
-      placeholder="Poser une question "
+      placeholder="Quel est le contexte de ce document ?"
       [(ngModel)]="question"
       (keyup.enter)="envoyerQuestion()"
       [disabled]="questionEnCours()"

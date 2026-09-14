@@ -13,7 +13,7 @@ Documentation interactive auto-générée disponible sur :
 
 import os
 import shutil
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException, Header
 from pydantic import BaseModel
 
 import rag_core
@@ -32,9 +32,18 @@ class QuestionRequest(BaseModel):
 
 
 @app.post("/upload")
-async def upload_pdf(file: UploadFile = File(...)):
+async def upload_pdf(
+    file: UploadFile = File(...),
+    x_user: str = Header(default="inconnu", alias="X-User"),
+):
     if not file.filename.endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Seuls les fichiers .pdf sont acceptés.")
+
+    if rag_core.document_existe(file.filename):
+        raise HTTPException(
+            status_code=409,
+            detail=f"Un document nommé '{file.filename}' existe déjà. Merci de renommer votre fichier avant de l'uploader.",
+        )
 
     chemin_fichier = os.path.join(DOSSIER_UPLOADS, file.filename)
 
@@ -43,7 +52,7 @@ async def upload_pdf(file: UploadFile = File(...)):
         shutil.copyfileobj(file.file, buffer)
 
   
-    nb_chunks = rag_core.indexer_pdf(chemin_fichier, nom_document=file.filename)
+    nb_chunks = rag_core.indexer_pdf(chemin_fichier, nom_document=file.filename, proprietaire=x_user)
 
     return {
         "message": f"PDF '{file.filename}' indexé avec succès.",
@@ -69,9 +78,33 @@ async def ask_question(requete: QuestionRequest):
 
 
 @app.get("/documents")
-async def liste_documents():
-    documents = rag_core.lister_documents_indexes()
+async def liste_documents(
+    x_user: str = Header(default="inconnu", alias="X-User"),
+    x_user_roles: str = Header(default="", alias="X-User-Roles"),
+):
+    print(f"🔍 DEBUG - X-User reçu: '{x_user}' | X-User-Roles reçu: '{x_user_roles}'")
+    est_admin = "admin" in x_user_roles.split(",")
+    documents = rag_core.lister_documents_indexes(utilisateur=x_user, est_admin=est_admin)
     return {"documents": documents}
+
+
+
+
+@app.delete("/documents/{nom_document}")
+async def supprimer_un_document(
+    nom_document: str,
+    x_user: str = Header(default="inconnu", alias="X-User"),
+    x_user_roles: str = Header(default="", alias="X-User-Roles"),
+):
+    est_admin = "admin" in x_user_roles.split(",")
+    resultat = rag_core.supprimer_document(nom_document, utilisateur=x_user, est_admin=est_admin)
+
+    if resultat == "introuvable":
+        raise HTTPException(status_code=404, detail=f"Document '{nom_document}' introuvable.")
+    if resultat == "interdit":
+        raise HTTPException(status_code=403, detail="Vous n'avez pas le droit de supprimer ce document.")
+
+    return {"message": f"Document '{nom_document}' supprimé avec succès."}
 
 
 

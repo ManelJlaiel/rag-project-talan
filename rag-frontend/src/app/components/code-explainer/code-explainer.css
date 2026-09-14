@@ -6,6 +6,9 @@
 }
 
 .panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 1.25rem;
 }
 
@@ -15,6 +18,22 @@
   font-weight: 600;
   color: var(--couleur-encre);
   margin: 0;
+}
+
+.bouton-secondaire {
+  background: transparent;
+  border: 1px solid #d8d3c8;
+  color: #6b6659;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.bouton-secondaire:hover {
+  border-color: #a12a2a;
+  color: #a12a2a;
 }
 
 .zone-saisie-url {
@@ -51,6 +70,55 @@
 .zone-saisie-url button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.liste-historique {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.chip-historique {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid #d8d3c8;
+  background: #fff;
+  color: var(--couleur-encre);
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.chip-historique:hover {
+  border-color: var(--couleur-accent);
+}
+
+.chip-nom {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+}
+
+.chip-date {
+  color: #8a8578;
+  font-size: 0.72rem;
+}
+
+.bouton-supprimer {
+  color: #b0aa9a;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0 0.15rem;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.bouton-supprimer:hover {
+  color: #fff;
+  background: #a12a2a;
 }
 
 .message-erreur {

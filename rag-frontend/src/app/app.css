@@ -8,6 +8,9 @@
   background: var(--couleur-encre);
   color: #fff;
   padding: 1.4rem 2rem 0 2rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 
 .entete-marque {
@@ -36,6 +39,13 @@
   color: #b9bfd1;
 }
 
+.entete-droite {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.7rem;
+}
+
 .onglets {
   display: flex;
   gap: 0.5rem;
@@ -62,8 +72,91 @@
   border-bottom-color: var(--couleur-accent);
 }
 
+.zone-utilisateur {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.nom-utilisateur {
+  font-size: 0.85rem;
+  color: #b9bfd1;
+}
+
+.bouton-deconnexion {
+  background: transparent;
+  border: 1px solid #3d4b6e;
+  color: #fff;
+  padding: 0.35rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.bouton-deconnexion:hover {
+  border-color: var(--couleur-accent);
+  color: var(--couleur-accent);
+}
+
 .contenu {
   flex: 1;
   background: var(--couleur-fond);
   padding: 2rem;
+}
+
+/* Écran de connexion */
+
+.ecran-connexion {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--couleur-encre);
+}
+
+.carte-connexion {
+  background: #fff;
+  border-radius: 16px;
+  padding: 3rem 3.5rem;
+  text-align: center;
+  max-width: 380px;
+}
+
+.logo-connexion {
+  font-size: 2.2rem;
+  color: var(--couleur-accent);
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.carte-connexion h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--couleur-encre);
+  margin: 0 0 0.4rem 0;
+}
+
+.sous-titre-connexion {
+  color: #8a8578;
+  font-size: 0.88rem;
+  margin: 0 0 1.8rem 0;
+}
+
+.bouton-connexion {
+  background: var(--couleur-accent);
+  color: #1b1204;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.bouton-connexion:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(232, 163, 61, 0.4);
 }

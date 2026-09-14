@@ -2,6 +2,9 @@
 
   <div class="panel-header">
     <h2>Analyse de repository</h2>
+    @if (entreesHistorique.length > 0) {
+      <button class="bouton-secondaire" (click)="effacerTouLHistorique()">Effacer l'historique</button>
+    }
   </div>
 
   <div class="zone-saisie-url">
@@ -16,6 +19,18 @@
       @if (chargement()) { Analyse en cours... } @else { Analyser }
     </button>
   </div>
+
+  @if (entreesHistorique.length > 0) {
+    <div class="liste-historique">
+      @for (entree of entreesHistorique; track entree.url) {
+        <button class="chip-historique" (click)="chargerDepuisHistorique(entree)">
+          <span class="chip-nom">{{ nomDepuisUrl(entree.url) }}</span>
+          <span class="chip-date">{{ entree.date }}</span>
+          <span class="bouton-supprimer" (click)="supprimerDeLHistorique(entree.url, $event)" title="Retirer de l'historique">×</span>
+        </button>
+      }
+    </div>
+  }
 
   @if (erreur()) {
     <p class="message-erreur">{{ erreur() }}</p>

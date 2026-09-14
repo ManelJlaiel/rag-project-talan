@@ -21,6 +21,28 @@
   margin: 0;
 }
 
+.actions-entete {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.bouton-secondaire {
+  background: transparent;
+  border: 1px solid #d8d3c8;
+  color: #6b6659;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.bouton-secondaire:hover {
+  border-color: #a12a2a;
+  color: #a12a2a;
+}
+
 .bouton-upload {
   background: var(--couleur-accent);
   color: #1b1204;
@@ -62,6 +84,23 @@
   font-size: 0.85rem;
   cursor: pointer;
   transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.bouton-supprimer {
+  color: #b0aa9a;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0 0.15rem;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.bouton-supprimer:hover {
+  color: #fff;
+  background: #a12a2a;
 }
 
 .chip-document:hover {

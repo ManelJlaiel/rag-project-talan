@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-// URL de la Gateway Spring Cloud (pas directement les microservices Python)
 const API_BASE = 'http://localhost:8082/api/pdf';
 
 export interface UploadResponse {
@@ -18,6 +17,10 @@ export interface AskResponse {
 
 export interface DocumentsResponse {
   documents: string[];
+}
+
+export interface DeleteResponse {
+  message: string;
 }
 
 @Injectable({
@@ -39,5 +42,9 @@ export class PdfService {
 
   getDocuments(): Observable<DocumentsResponse> {
     return this.http.get<DocumentsResponse>(`${API_BASE}/documents`);
+  }
+
+  deleteDocument(nomDocument: string): Observable<DeleteResponse> {
+    return this.http.delete<DeleteResponse>(`${API_BASE}/documents/${encodeURIComponent(nomDocument)}`);
   }
 }
